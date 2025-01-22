@@ -2,8 +2,12 @@ import {useState} from "react";
 import Board from "./Board";
 
 export default function Game() {
+  
   const [history, setHistory] = useState([Array(9).fill(null)]); 
   const [currentMove, setCurrentMove] = useState(0);
+  const [sortAsc, setSortAsc] = useState(false);
+  const [movess, setMoves] = useState([]);
+
   const currentSquares = history[currentMove]; // Always takes last
   const xIsNext = currentMove % 2 === 0;
 
@@ -11,10 +15,17 @@ export default function Game() {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
+    console.log(history);
   };
 
   function jumpTo(nextMove){
     setCurrentMove(nextMove);
+  }
+
+  function onClickSortingHandler() {
+   moves.sort((a, b) => b - a)
+    console.log(moves);
+    setSortAsc(!sortAsc);
   }
 
   const moves = history.map((squares, move) => {
@@ -44,6 +55,9 @@ export default function Game() {
       </div>
       <div className="game-info">
         <ol>{moves}</ol>
+      </div>
+      <div>
+        <button onClick={onClickSortingHandler}>Sort {sortAsc ? 'asc' : 'desc' }</button>
       </div>
     </div>
   );
